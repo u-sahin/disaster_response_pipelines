@@ -35,7 +35,7 @@ def clean_data(df):
     cleaned dataframe
     '''
     # splitting the categories column by semicolon
-    categories = categories['categories'].str.split(';', expand=True)
+    categories = df['categories'].str.split(';', expand=True)
     
     # selecting the frist row of the categories dataframe
     row = categories.iloc[0]
@@ -83,7 +83,7 @@ def save_data(df, database_filename):
     '''
     
     # creating engine for the desired database
-    engine = create_engine('sqlite:///{}.db'.format(database_filename))
+    engine = create_engine('sqlite:///{}'.format(database_filename))
     
     # inserting data into the table 'disaster_response'
     df.dropna().to_sql('disaster_response', engine, index=False)

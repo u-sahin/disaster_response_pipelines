@@ -17,7 +17,9 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
 from sklearn.base import BaseEstimator, TransformerMixin
-import pickle
+import joblib
+
+stopWords = stopwords.words('english') # loading the stopwords
 
 # idea was taken from the StartingVerbExtractor from the udacity course
 class TextLengthExtractor(BaseEstimator, TransformerMixin):
@@ -48,17 +50,17 @@ def load_data(database_filepath):
     :param database_filepath: filename of the database
     
     OUTPUT:
-    X and Y of the dataframe
+    X, Y and the columns of Y of the dataframe
     '''
     # creating engine on the database given per parameter
-    engine = create_engine('sqlite:///{}.db'.format(database_filepath))
+    engine = create_engine('sqlite:///{}'.format(database_filepath))
     
     # reaeding data from sql table disaster_reponse
-    df = pd.read_sql_table(con=engine, table_name='disaster_reponse')
+    df = pd.read_sql_table(con=engine, table_name='disaster_response')
     X = df['message']
     Y = df.drop(columns=['id','message','original','genre'])
     
-    return X, Y
+    return X, Y, Y.columns
 
 
 def tokenize(text):
@@ -76,7 +78,6 @@ def tokenize(text):
     # tokenize the text into words
     words = word_tokenize(text)
     lemmatizer = WordNetLemmatizer() # creating a lemmatizer object
-    stopWords = stopwords.words('english') # loading the stopwords
     
     clean_tokens = []
     for word in words:
@@ -109,9 +110,8 @@ def build_model():
     ])
 
     parameters = {
-        'features__text_pipeline__tfidf__use_idf': (True, False),
+        'clf__estimator__oob_score': (True, False),
         'clf__estimator__n_estimators': [50, 100],
-        'clf__estimator__oob_score': (True, False)
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters, n_jobs=-1)
@@ -145,12 +145,12 @@ def save_model(model, model_filepath):
     This function creates a pickle file for the given model and filepath
     
     INPUT:
-    :param model: The model to be written into the file
-    :param model_filepath: The filepath for the pickle-file
+    :param model: the model to be written into the file
+    :param model_filepath: the filepath for the pickle-file
     
     '''
     
-    pickle.dump(model, open(model_filepath, 'wb'))
+    joblib.dump(model, model_filepath)
 
 
 def main():
@@ -158,7 +158,7 @@ def main():
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.4)
         
         print('Building model...')
         model = build_model()
