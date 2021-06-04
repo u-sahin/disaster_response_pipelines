@@ -19,7 +19,7 @@ from sklearn.metrics import classification_report
 from sklearn.base import BaseEstimator, TransformerMixin
 import joblib
 
-stopWords = stopwords.words('english') # loading the stopwords
+
 
 # idea was taken from the StartingVerbExtractor from the udacity course
 class TextLengthExtractor(BaseEstimator, TransformerMixin):
@@ -78,6 +78,7 @@ def tokenize(text):
     # tokenize the text into words
     words = word_tokenize(text)
     lemmatizer = WordNetLemmatizer() # creating a lemmatizer object
+    stopWords = stopwords.words('english') # loading the stopwords
     
     clean_tokens = []
     for word in words:
