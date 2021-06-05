@@ -15,7 +15,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the req
 There is a """requirements.txt""" file which contains all required libraries.
 You can install all of them by simply calling it as following:
 
-"""pip install -r requirements.txt"""
+""" pip install -r requirements.txt """
 
 
 ## Project Overview <a name="overview"></a>
@@ -31,11 +31,11 @@ To see the classification of the messages, I included a web app execution in the
 
 ## File Descriptions <a name="files"></a>
 
-*1. [run.py](https://github.com/u-sahin/disaster_response_pipelines/app/run.py)
+* [run.py](https://github.com/u-sahin/disaster_response_pipelines/app/run.py)
 Running this file will open the web app on local port 3001
-*2. [process_data.py](https://github.com/u-sahin/disaster_response_pipelines/data/process_data.py)
+* [process_data.py](https://github.com/u-sahin/disaster_response_pipelines/data/process_data.py)
 The ETL (extract, transform, load) pipeline is performed and created in this file.
-*3. [train_classifier.py](https://github.com/u-sahin/disaster_response_pipelines/models/train_classifier.py)
+* [train_classifier.py](https://github.com/u-sahin/disaster_response_pipelines/models/train_classifier.py)
 The machine learning pipeline is set up in this file.
 
 To be able to run the web app you need to run the following commands:
