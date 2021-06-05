@@ -1,0 +1,8 @@
+numpy==1.19.5
+SQLAlchemy==1.4.17
+plotly==4.14.3
+joblib==1.0.1
+Flask==1.1.2
+nltk==3.6.2
+pandas==1.2.4
+scikit_learn==0.24.2
