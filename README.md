@@ -31,18 +31,18 @@ To see the classification of the messages, I included a web app execution in the
 
 ## File Descriptions <a name="files"></a>
 
-* [run.py](https://github.com/u-sahin/disaster_response_pipelines/app/run.py)
+* [run.py](https://github.com/u-sahin/disaster_response_pipelines/blob/main/app/run.py)
 Running this file will open the web app on local port 3001
-* [process_data.py](https://github.com/u-sahin/disaster_response_pipelines/data/process_data.py)
+* [process_data.py](https://github.com/u-sahin/disaster_response_pipelines/blob/main/data/process_data.py)
 The ETL (extract, transform, load) pipeline is performed and created in this file.
-* [train_classifier.py](https://github.com/u-sahin/disaster_response_pipelines/models/train_classifier.py)
+* [train_classifier.py](https://github.com/u-sahin/disaster_response_pipelines/blob/main/models/train_classifier.py)
 The machine learning pipeline is set up in this file.
 
 To be able to run the web app you need to run the following commands:
-`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-`python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
-`cd app`
-`python run.py`
+* `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+* `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+* `cd app`
+* `python run.py`
 The web-app will be available at http://0.0.0.0:3001/
 
 Please be aware, that the second command probably will take a few minutes, depending on the CPU power of your device.
