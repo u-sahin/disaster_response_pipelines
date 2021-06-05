@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 from sqlalchemy import create_engine
+pd.options.mode.chained_assignment = None
 
 def load_data(messages_filepath, categories_filepath):
     '''
@@ -63,6 +64,11 @@ def clean_data(df):
     # concatenating the dataframe df with the categories
     df = pd.concat([df, categories], axis=1)
     
+    # The column related has the values [0, 1, 2]
+    # In order to use the '2'-value I convert it to a '1'
+    # This way it is ensured that the column only contains the binary values [0, 1]
+    df.related[df.related == 2] = 1
+    
     # dropping duplicate entries
     df = df.drop_duplicates()
     
@@ -86,7 +92,7 @@ def save_data(df, database_filename):
     engine = create_engine('sqlite:///{}'.format(database_filename))
     
     # inserting data into the table 'disaster_response'
-    df.to_sql('disaster_response', engine, index=False)
+    df.to_sql('disaster_response', engine, index=False, if_exists='replace')
 
 
 def main():
