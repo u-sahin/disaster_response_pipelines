@@ -20,6 +20,8 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import joblib
 
 
+stopWords = stopwords.words('english') # loading the stopwords
+
 
 # idea was taken from the StartingVerbExtractor from the udacity course
 class TextLengthExtractor(BaseEstimator, TransformerMixin):
@@ -76,14 +78,13 @@ def tokenize(text):
     '''
     
     # tokenize the text into words
-    words = word_tokenize(text)
+    tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer() # creating a lemmatizer object
-    stopWords = stopwords.words('english') # loading the stopwords
     
     clean_tokens = []
-    for word in words:
-        clean_tok = lemmatizer.lemmatize(word).lower().strip() # lemmatize, lower and strip the word
-        if word not in stopWords:
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip() # lemmatize, lower and strip the word
+        if tok not in stopWords:
             clean_tokens.append(clean_tok) # append only to the clean_tokens-list if not a stopword
 
     return clean_tokens
@@ -132,7 +133,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     :param category_names: the names for the columns
     '''
     
-    # predicting model and converting it into  adataframe
+    # predicting model and converting it into a dataframe
     Y_pred = pd.DataFrame(model.predict(X_test), columns=category_names)
     
     # creating a classification report for Y_test and Y_pred
